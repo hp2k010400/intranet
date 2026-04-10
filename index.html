@@ -1,24 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GC4C Intranet</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      padding: 40px;
-    }
-    h1 {
-      color: #0b3c5d;
-    }
-    p {
-      font-size: 18px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PGA Championship Countdown</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: #0D2B1D;
+    font-family: 'Oswald', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  .container {
+    text-align: center;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .label {
+    color: #a8c5a0;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .title {
+    color: #ffffff;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .title span {
+    color: #4caf7d;
+  }
+
+  .countdown {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .number {
+    background-color: #005F2C;
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 700;
+    width: 90px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    letter-spacing: 0.02em;
+    border: 1px solid #1a5c38;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  }
+
+  .unit-label {
+    color: #a8c5a0;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .separator {
+    color: #4caf7d;
+    font-size: 42px;
+    font-weight: 700;
+    padding-top: 10px;
+    line-height: 80px;
+  }
+
+  .finished {
+    color: #4caf7d;
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
 </head>
 <body>
-  <h1>GC4C Intranet</h1>
-  <p>This page is live via Netlify.</p>
+<div class="container">
+  <p class="label">Counting down to</p>
+  <h1 class="title">THE <span>US PGA</span> CHAMPIONSHIP</h1>
+  <div class="countdown" id="countdown">
+    <div class="unit">
+      <div class="number" id="days">00</div>
+      <div class="unit-label">Days</div>
+    </div>
+    <div class="separator">:</div>
+    <div class="unit">
+      <div class="number" id="hours">00</div>
+      <div class="unit-label">Hours</div>
+    </div>
+    <div class="separator">:</div>
+    <div class="unit">
+      <div class="number" id="minutes">00</div>
+      <div class="unit-label">Minutes</div>
+    </div>
+    <div class="separator">:</div>
+    <div class="unit">
+      <div class="number" id="seconds">00</div>
+      <div class="unit-label">Seconds</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const target = new Date('2026-05-14T12:00:00').getTime();
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function tick() {
+    const now = Date.now();
+    const diff = target - now;
+
+    if (diff <= 0) {
+      document.getElementById('countdown').innerHTML = '<p class="finished">The Championship Has Begun!</p>';
+      return;
+    }
+
+    const days    = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours   = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('days').textContent    = pad(days);
+    document.getElementById('hours').textContent   = pad(hours);
+    document.getElementById('minutes').textContent = pad(minutes);
+    document.getElementById('seconds').textContent = pad(seconds);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
 </body>
 </html>
